@@ -5,7 +5,9 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+
+router.get('/',async (req, res) => {
+  throw new Error('could not get gender');
   const genres = await Genre.find().sort('name');
   res.send(genres);
 });
@@ -33,7 +35,7 @@ router.put('/:id',auth, async (req, res) => {
   res.send(genre);
 });
 
-router.delete('/:id',[auth,admin], async (req, res) => {
+router.delete('/:id',[auth,admin],async (req, res) => {
   const genre = await Genre.findByIdAndRemove(req.params.id);
 
   if (!genre) return res.status(404).send('The genre with the given ID was not found.');
@@ -41,7 +43,7 @@ router.delete('/:id',[auth,admin], async (req, res) => {
   res.send(genre);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id',async (req, res) => {
   const genre = await Genre.findById(req.params.id);
 
   if (!genre) return res.status(404).send('The genre with the given ID was not found.');
